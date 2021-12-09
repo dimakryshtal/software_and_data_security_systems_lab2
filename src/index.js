@@ -12,6 +12,7 @@ let userFound = null
 const main = async () => {
     createFileSystem()
     let fileSystem = loadFileSystem()
+    let isWaiting = false
     const logbookUsers= fileSystem.filesAndDirs.find(obj => obj.name == "logBook").content
     
 
@@ -31,14 +32,22 @@ const main = async () => {
     }
 
     if(userFound != "admin") {
-        await askQuestion(userFound, fileSystem)
-        getCommands(userFound, fileSystem, "homeDir\\")
         
         setInterval(async () => {
-            rl.write('\r')
-            await askQuestion(userFound, fileSystem)
-            getCommands(userFound, fileSystem, "homeDir\\")
-        }, 1000 * 60 * 5)
+            if(!isWaiting) {
+                isWaiting = true
+                rl.write('\r')
+                await askQuestion(userFound, fileSystem)
+                getCommands(userFound, fileSystem, "homeDir\\")
+                isWaiting = false
+            } else {
+                console.log("\nYou have been answering for too long")
+                process.exit(0)
+            }
+        }, 1000  *60 * 5)
+        isWaiting = true
+        await askQuestion(userFound, fileSystem)
+        getCommands(userFound, fileSystem, "homeDir\\")
     } else {
         getCommands(userFound, fileSystem, "homeDir\\")
         

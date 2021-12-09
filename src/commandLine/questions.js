@@ -13,7 +13,6 @@ export const askQuestion = (currUser, fileSystem) => new Promise(async (resolve,
         let answer = await new Promise((resolve, reject) => {
             const questionID = questions[Math.floor(Math.random()*3)]
             const questionValues = allQuestions[questionID]
-            console.log(questions)
             rl.question(`Answer the question: what are a and x for your secret formula if the answer is ${questionValues.ans} `, (ans) => {
                 const [a, x] = ans.split(" ")
                 if(a == questionValues.a && x == questionValues.x ) {

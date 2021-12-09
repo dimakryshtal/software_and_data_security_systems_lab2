@@ -29,7 +29,7 @@
           "password": "1234",
           "passwordChangeTime": 1639065278784,
           "forbidden": false,
-          "numberOfMistakes": 2,
+          "numberOfMistakes": 3,
           "questions": [
             12,
             4,
