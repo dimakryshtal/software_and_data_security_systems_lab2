@@ -18,6 +18,8 @@ export const regAndAuthCommands = (fileSystem, command, userName, password) => n
             const logBook = fileSystem.filesAndDirs.find(obj => obj.name == "logBook")
             if (logBook.content.length < 8) {
                 logBook.content.push(createNewUser(userName, password, randomlyGetQuestions(fileSystem)))
+                fileSystem.readRights.push(userName)
+                fileSystem.writeRights.push(userName)
                 fileSystem.filesAndDirs.find(disk => disk.name === "C").readRights.push(userName)
                 fileSystem.filesAndDirs.find(disk => disk.name === "C").writeRights.push(userName)
                 fileSystem.filesAndDirs.find(disk => disk.name === "D").readRights.push(userName)
