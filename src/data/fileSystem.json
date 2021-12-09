@@ -22,18 +22,30 @@
       "content": [
         {
           "userName": "admin",
-          "password": "admin"
+          "password": "admin123"
         },
         {
           "userName": "testuser1",
           "password": "1234",
           "passwordChangeTime": 1639065278784,
-          "forbidden": true,
-          "numberOfMistakes": 4,
+          "forbidden": false,
+          "numberOfMistakes": 2,
           "questions": [
             12,
             4,
             14
+          ]
+        },
+        {
+          "userName": "testuser2",
+          "password": "1111",
+          "passwordChangeTime": 1639075307965,
+          "forbidden": false,
+          "numberOfMistakes": 0,
+          "questions": [
+            1,
+            19,
+            11
           ]
         }
       ]
@@ -254,10 +266,12 @@
       "name": "C",
       "type": "directory",
       "readRights": [
-        "admin"
+        "admin",
+        "testuser2"
       ],
       "writeRights": [
-        "admin"
+        "admin",
+        "testuser2"
       ],
       "filesAndDirs": [
         {
@@ -277,10 +291,12 @@
       "name": "D",
       "type": "directory",
       "readRights": [
-        "admin"
+        "admin",
+        "testuser2"
       ],
       "writeRights": [
-        "admin"
+        "admin",
+        "testuser2"
       ],
       "filesAndDirs": []
     },

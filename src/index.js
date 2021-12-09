@@ -1,7 +1,6 @@
 import { getCommands, rl} from "./commandLine/commandLine.js"
 import { getName, getPassword, checkPasswordAuthenticity } from "./commandLine/getNameAndPass.js"
-import { users } from "./security/users.js"
-import { loadFileSystem, createFileSystem } from "./data/fileSystem.js"
+import { loadFileSystem, createFileSystem, saveFileSystem } from "./data/fileSystem.js"
 import { askQuestion } from "./commandLine/questions.js"
 
 export const minPasswordLength = 4
@@ -17,8 +16,8 @@ const main = async () => {
     
 
     while(userFound === null) {
-        const name = "testuser1"//await getName()
-        const password = "1234"//await getPassword()
+        const name = await getName()
+        const password = await getPassword()
         let userObject = logbookUsers.find(user => user.userName === name && user.password === password)
         if(userObject !== undefined && (userObject.userName == "admin" || await checkPasswordAuthenticity(userObject.passwordChangeTime))) {
             if(userObject.forbidden) {
@@ -26,19 +25,24 @@ const main = async () => {
                 process.exit(0)
             }
             userFound = name
+            saveFileSystem(fileSystem)
             console.log("success")
-            // console.log(logbookUsers)
         }
     }
-    getCommands(userFound, fileSystem, "homeDir\\")
-    
-    setInterval(async () => {
-        rl.write('\r')
+
+    if(userFound != "admin") {
         await askQuestion(userFound, fileSystem)
         getCommands(userFound, fileSystem, "homeDir\\")
-    }, 5000)
-    
-
+        
+        setInterval(async () => {
+            rl.write('\r')
+            await askQuestion(userFound, fileSystem)
+            getCommands(userFound, fileSystem, "homeDir\\")
+        }, 1000 * 60 * 5)
+    } else {
+        getCommands(userFound, fileSystem, "homeDir\\")
+        
+    }
 
 }
 

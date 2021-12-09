@@ -16,11 +16,18 @@ export const regAndAuthCommands = (fileSystem, command, userName, password) => n
     switch(command){
         case "reguser":{
             const logBook = fileSystem.filesAndDirs.find(obj => obj.name == "logBook")
-            console.log(logBook)
-            logBook.content.push(createNewUser(userName, password, randomlyGetQuestions(fileSystem)))
-           // fileSystem - updateFileSystem(fileSystem, oldLogBook, newLogBook)
-            saveFileSystem(fileSystem)
-            resolve(fileSystem)
+            if (logBook.content.length < 8) {
+                logBook.content.push(createNewUser(userName, password, randomlyGetQuestions(fileSystem)))
+                fileSystem.filesAndDirs.find(disk => disk.name === "C").readRights.push(userName)
+                fileSystem.filesAndDirs.find(disk => disk.name === "C").writeRights.push(userName)
+                fileSystem.filesAndDirs.find(disk => disk.name === "D").readRights.push(userName)
+                fileSystem.filesAndDirs.find(disk => disk.name === "D").writeRights.push(userName)
+                saveFileSystem(fileSystem)
+                resolve(fileSystem)
+            } else {
+                console.log("Impossible to register a new user as the total number of users cannot exceed 8.")
+                resolve(fileSystem)
+            }
         }
 
         break

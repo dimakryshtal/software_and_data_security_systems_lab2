@@ -47,7 +47,6 @@ export const getCommands = (currUser, fileSystem, currentDirUrl, currentDir = nu
                 let newUserName = await getNewUserName()
                 let newUserPassword = await checkPassword()
                 fileSystem = await regAndAuthCommands(fileSystem, command[0], newUserName, newUserPassword)
-                //console.log(fileSystem)
             }
         } else {
             await executeCommand(currUser, fileSystem, currentDir, currentDirUrl, command[0])
